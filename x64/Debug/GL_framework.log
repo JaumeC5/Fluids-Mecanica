@@ -1,0 +1,18 @@
+﻿  render_prims.cpp
+  render_cube.cpp
+  render.cpp
+  physics.cpp
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(212): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  main.cpp
+c:\users\jcompany\documents\github\fluids-mecanica\src\main.cpp(88): warning C4305: 'argument': truncation from 'double' to 'float'
+  imgui_impl_glfw_gl3.cpp
+  imgui_draw.cpp
+  imgui_demo.cpp
+  imgui.cpp
+  Generating Code...
+  GL_framework.vcxproj -> C:\Users\jcompany\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.exe
+  GL_framework.vcxproj -> C:\Users\jcompany\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.pdb (Partial PDB)
+  C:\Users\jcompany\Documents\GitHub\Fluids-Mecanica\libs\glew32.dll
+  1 File(s) copied
+  C:\Users\jcompany\Documents\GitHub\Fluids-Mecanica\libs\glfw3.dll
+  1 File(s) copied
