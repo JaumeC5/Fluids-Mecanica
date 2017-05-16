@@ -4,7 +4,7 @@
 #include <imgui\imgui.h>
 #include <imgui\imgui_impl_glfw_gl3.h>
 #include <cstdio>
-
+#include <time.h>
 #include "GL_framework.h"
 
 static GLFWwindow *window;
@@ -45,6 +45,8 @@ namespace {
 
 //int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 int main(int argc, char** argv) {
+	srand(time(NULL));
+
 	//Init GLFW
 	if (!glfwInit()) {
 		fprintf(stderr, "Couldn't initialize GLFW\n");
@@ -85,7 +87,7 @@ int main(int argc, char** argv) {
 
 		ImGuiIO& io = ImGui::GetIO();
 		GUI();
-		PhysicsUpdate(0.033);
+		PhysicsUpdate((float)expected_frametime);
 		if (!io.WantCaptureMouse) {
 			MouseEvent ev = { io.MousePos.x, io.MousePos.y,
 				(io.MouseDown[0] ? MouseEvent::Button::Left :
