@@ -1,11 +1,12 @@
 ﻿  physics.cpp
-c:\users\hzhou\documents\github\fluids-mecanica\src\physics.cpp(182): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\hzhou\documents\github\fluids-mecanica\src\physics.cpp(202): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\hzhou\documents\github\fluids-mecanica\src\physics.cpp(203): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\hzhou\documents\github\fluids-mecanica\src\physics.cpp(204): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\hzhou\documents\github\fluids-mecanica\src\physics.cpp(282): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\hzhou\documents\github\fluids-mecanica\src\physics.cpp(81): warning C4715: 'getTheAlpha': not all control paths return a value
-  GL_framework.vcxproj -> C:\Users\hzhou\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.exe
-  GL_framework.vcxproj -> C:\Users\hzhou\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.pdb (Partial PDB)
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(69): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(156): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(175): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(176): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(177): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(211): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\jcompany\documents\github\fluids-mecanica\src\physics.cpp(99): warning C4715: 'getTheAlpha': not all control paths return a value
+  GL_framework.vcxproj -> C:\Users\jcompany\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.exe
+  GL_framework.vcxproj -> C:\Users\jcompany\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.pdb (Partial PDB)
   0 File(s) copied
   0 File(s) copied
