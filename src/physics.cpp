@@ -96,6 +96,8 @@ void GUI() {
 		ImGui::SliderFloat("Direction z", &dir.z, 0, 1);
 		ImGui::SliderFloat("Height", &height, 0.5, 10);
 		ImGui::SliderFloat("Mass", &massa, 0.1, 10);
+		ImGui::SliderFloat("Liquid's density", &density, 1, 30);
+
 	}
 
 }
