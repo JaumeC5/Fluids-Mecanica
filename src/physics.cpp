@@ -17,16 +17,37 @@ bool show_test_window = false;
 
 // Helps to reset the system
 bool reset = false;
-float A; 
+float A;
 // Collision detectors
 int Rtime;
 
 // Positions
 glm::vec3* initialMesh;
 glm::vec3* actualMesh;
+glm::vec3 *temp;
+glm::vec3 *lastMesh;
+
+//Distance between nodes and sphere
+
+glm::vec3 *q;
 
 // External Force
-glm::vec3 force;
+glm::vec3 gravity;
+glm::vec3 buoyancy;
+glm::vec3 drag;
+glm::vec3 lift;
+
+//Total force
+
+glm::vec3 total;
+
+// Water density
+float density = 10.0;
+
+// Coeficients
+float dragC = 0.47;
+float massa = 1.f;
+
 
 // Sphere things
 glm::vec3 centreSphere;
@@ -43,7 +64,9 @@ float K;
 float omega;
 glm::vec3 dir = glm::vec3(1.0f, 0.f, 0.0f);
 float height;
+float vsub = 0;
 
+glm::vec3 sphereSpeed;
 
 namespace Sphere {
 	extern void setupSphere(glm::vec3 pos = glm::vec3(5.f, 1.f, 0.f), float radius = 1.f);
@@ -68,12 +91,18 @@ void GUI() {
 	if (ImGui::CollapsingHeader("Spring parameters")) {
 		ImGui::SliderFloat("Amplitude", &A, 0.1, 1.5);
 		ImGui::SliderFloat("Frequency", &omega, 1, 10);
-		ImGui::SliderFloat("Power", &dir.x, -1, 1);
-		ImGui::SliderFloat("Height", &height, 0.5, 7);
+		ImGui::SliderFloat("Direction x", &dir.x, 0, 1);
+		ImGui::SliderFloat("Direction y", &dir.y, 0, 1);
+		ImGui::SliderFloat("Direction z", &dir.z, 0, 1);
+		ImGui::SliderFloat("Height", &height, 0.5, 10);
+		ImGui::SliderFloat("Mass", &massa, 0.1, 10);
 	}
 
 }
 
+void applyLift() {
+	//lift = -0.5*density*dragC
+}
 
 bool hasCollision(glm::vec3 Pt, glm::vec3 n, float d, glm::vec3 PtPost, int plane) {
 
@@ -136,8 +165,12 @@ void sphereCollision(glm::vec3 Q, glm::vec3 &actPos, glm::vec3 &lastPos, glm::ve
 	glm::vec3 n = glm::normalize(Q - cS);
 	float d = -glm::dot(n, Q);
 	if (glm::length(actPos - centreSphere) <= RandomRadiusSphere) {
-		collidePlane(n, d, actPos, lastPos);
+		//collidePlane(n, d, actPos, lastPos);
+		total = buoyancy;
 	}
+
+
+
 }
 
 void PhysicsCleanup() {
@@ -150,28 +183,40 @@ void PhysicsCleanup() {
 
 void PhysicsInit() {
 
+	sphereSpeed = glm::vec3(0.f, 0.f, 0.f);
 	reset = false;
 	Rtime = 0;
 	lambda = 2;
 	K = (2 * 3.14159) / lambda;
-	A = 0.5;
+	A = 0.4;
 	omega = 6;
-	height = 2;
+	height = 0.5;
+	density = 10;
+	vsub = 0;
+
+	gravity = glm::vec3(0, -9.81, 0);
+	drag = glm::vec3(0, 0, 0);
+	lift = glm::vec3(0, 0, 0);
+	total = gravity;
 
 	initialMesh = new glm::vec3[14 * 18];
+	temp = new glm::vec3[14 * 18];
+	lastMesh = new glm::vec3[14 * 18];
+
 	actualMesh = new glm::vec3[14 * 18];
 	parVerts = new Particle[14 * 18];
+	q = new glm::vec3[14 * 18];
 
 	for (int j = 0; j < ClothMesh::numRows; j++) {
 		for (int i = 0; i < ClothMesh::numCols; i++) {
+			temp[(j * ClothMesh::numCols + i)] = glm::vec3(0.f, 0.f, 0.f);
+			lastMesh[(j * ClothMesh::numCols + i)] = glm::vec3(0.f, 0.f, 0.f);
 
 			initialMesh[(j * ClothMesh::numCols + i)] = glm::vec3(-4.5 + j*0.5f, 0.f, -4.5 + i*0.5f);
 			actualMesh[(j * ClothMesh::numCols + i)] = initialMesh[(j * ClothMesh::numCols + i)];
-		
-			force = glm::vec3(0, -9.81, 0);
+
 		}
 	}
-
 	sphereX = -4 + rand() % 8;
 	sphereY = 0 + rand() % 9;
 	sphereZ = -4 + rand() % 8;
@@ -202,16 +247,35 @@ void resetAll()
 
 void PhysicsUpdate(float dt) {
 	totalTime += dt;
+	total = gravity;
 
-		for (int j = 0; j < ClothMesh::numRows; j++) {
-			for (int i = 0; i < ClothMesh::numCols; i++) {
-				actualMesh[j * ClothMesh::numCols + i] = initialMesh[j * ClothMesh::numCols + i] - (dir / K)*A*sin(glm::dot(dir, (initialMesh[j * ClothMesh::numCols + i]) - omega*totalTime));
-				actualMesh[j * ClothMesh::numCols + i].y = height+A*cos(glm::dot(dir, actualMesh[j * ClothMesh::numCols + i]) - omega*totalTime);
+	buoyancy = density*vsub*9.81f*glm::vec3(0.f, 1.f, 0.f);
+	total += buoyancy;
+	sphereSpeed.y = sphereSpeed.y + dt * (total.y);
 
-				Rtime = glfwGetTime();
+	sphereY = sphereY + dt*sphereSpeed.y;
+	for (int j = 0; j < ClothMesh::numRows; j++) {
+		for (int i = 0; i < ClothMesh::numCols; i++) {
+			temp[j * ClothMesh::numCols + i] = actualMesh[j * ClothMesh::numCols + i];
+			actualMesh[j * ClothMesh::numCols + i] = initialMesh[j * ClothMesh::numCols + i] - (dir / K)*A*sin(glm::dot(dir, (initialMesh[j * ClothMesh::numCols + i]) - omega*totalTime));
+			actualMesh[j * ClothMesh::numCols + i].y = height + A*cos(glm::dot(dir, actualMesh[j * ClothMesh::numCols + i]) - omega*totalTime);
+			lastMesh[j * ClothMesh::numCols + i] = temp[j * ClothMesh::numCols + i];
+			q[j * ClothMesh::numCols + i] = getQ(actualMesh[(j * ClothMesh::numCols + i)], lastMesh[(j * ClothMesh::numCols + i)], centreSphere, RandomRadiusSphere);
+
+			//sphereCollision(q[j * ClothMesh::numCols + i], actualMesh[(j * ClothMesh::numCols + i)], lastMesh[(j * ClothMesh::numCols + i)], centreSphere);
+
+
+			if (sphereY - RandomRadiusSphere <= actualMesh[j * ClothMesh::numCols + i].y)
+				vsub = (RandomRadiusSphere * 2) *(abs(sphereY - RandomRadiusSphere - actualMesh[j * ClothMesh::numCols + i].y));
+			else {
+				vsub = 0;
 			}
+
+			Rtime = glfwGetTime();
 		}
-	
+	}
+
+	Sphere::updateSphere(glm::vec3(sphereX, sphereY, sphereZ), RandomRadiusSphere);
 	resetAll();
 	ClothMesh::updateClothMesh(&actualMesh[0].x);
 }
