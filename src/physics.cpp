@@ -55,6 +55,7 @@ float RandomRadiusSphere;
 float sphereX;
 float sphereY;
 float sphereZ;
+float subArea;
 
 time_t theTime = time(0);
 float totalTime = 0;
@@ -65,7 +66,7 @@ float omega;
 glm::vec3 dir = glm::vec3(1.0f, 0.f, 0.0f);
 float height;
 float vsub = 0;
-
+float diff;
 glm::vec3 sphereSpeed;
 
 namespace Sphere {
@@ -102,8 +103,10 @@ void GUI() {
 
 }
 
-void applyLift() {
-	//lift = -0.5*density*dragC
+void calculateDrag() {
+	subArea = abs(2 * 3.14150*RandomRadiusSphere*diff);
+	drag.y = -0.5*density*subArea * glm::length(sphereSpeed)*sphereSpeed.y * 0.2;
+
 }
 
 bool hasCollision(glm::vec3 Pt, glm::vec3 n, float d, glm::vec3 PtPost, int plane) {
@@ -193,14 +196,14 @@ void PhysicsInit() {
 	A = 0.4;
 	omega = 6;
 	height = 0.5;
-	density = 10;
+	density = 1.7;
 	vsub = 0;
-
+	subArea = 0;
 	gravity = glm::vec3(0, -9.81, 0);
 	drag = glm::vec3(0, 0, 0);
 	lift = glm::vec3(0, 0, 0);
 	total = gravity;
-
+	diff = 0;
 	initialMesh = new glm::vec3[14 * 18];
 	temp = new glm::vec3[14 * 18];
 	lastMesh = new glm::vec3[14 * 18];
@@ -249,11 +252,12 @@ void resetAll()
 
 void PhysicsUpdate(float dt) {
 	totalTime += dt;
-	total = gravity;
 
 	buoyancy = density*vsub*9.81f*glm::vec3(0.f, 1.f, 0.f);
-	total += buoyancy;
-	sphereSpeed.y = sphereSpeed.y + dt * (total.y);
+	total = (gravity + buoyancy + drag)*massa;
+	sphereSpeed.y = sphereSpeed.y + dt * (total.y / massa);
+
+	cout << diff << endl;
 
 	sphereY = sphereY + dt*sphereSpeed.y;
 	for (int j = 0; j < ClothMesh::numRows; j++) {
@@ -263,12 +267,13 @@ void PhysicsUpdate(float dt) {
 			actualMesh[j * ClothMesh::numCols + i].y = height + A*cos(glm::dot(dir, actualMesh[j * ClothMesh::numCols + i]) - omega*totalTime);
 			lastMesh[j * ClothMesh::numCols + i] = temp[j * ClothMesh::numCols + i];
 			q[j * ClothMesh::numCols + i] = getQ(actualMesh[(j * ClothMesh::numCols + i)], lastMesh[(j * ClothMesh::numCols + i)], centreSphere, RandomRadiusSphere);
+			diff = abs(sphereY - RandomRadiusSphere - actualMesh[j * ClothMesh::numCols + i].y);
 
-			//sphereCollision(q[j * ClothMesh::numCols + i], actualMesh[(j * ClothMesh::numCols + i)], lastMesh[(j * ClothMesh::numCols + i)], centreSphere);
 
-
-			if (sphereY - RandomRadiusSphere <= actualMesh[j * ClothMesh::numCols + i].y)
-				vsub = (RandomRadiusSphere * 2) *(abs(sphereY - RandomRadiusSphere - actualMesh[j * ClothMesh::numCols + i].y));
+			if (sphereY - RandomRadiusSphere <= actualMesh[j * ClothMesh::numCols + i].y) {
+				vsub = (RandomRadiusSphere * 2) *diff;
+				calculateDrag();
+			}
 			else {
 				vsub = 0;
 			}

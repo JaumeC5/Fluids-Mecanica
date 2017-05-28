@@ -1,15 +1,18 @@
 ﻿  physics.cpp
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(48): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(92): warning C4305: 'argumento': truncamiento de 'double' a 'float'
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(98): warning C4305: 'argumento': truncamiento de 'double' a 'float'
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(192): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(193): warning C4305: '=': truncamiento de 'double' a 'float'
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(222): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(223): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(224): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(276): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
-c:\users\toni\source\repos\fluids-mecanica\src\physics.cpp(130): warning C4715: 'getTheAlpha': no todas las rutas de acceso de control devuelven un valor
-  GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Fluids-Mecanica\x64\Debug\GL_framework.exe
-  GL_framework.vcxproj -> C:\Users\Toni\Source\Repos\Fluids-Mecanica\x64\Debug\GL_framework.pdb (Partial PDB)
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(48): warning C4305: 'inicializando': truncamiento de 'double' a 'float'
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(93): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(99): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(107): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(108): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(195): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(196): warning C4305: '=': truncamiento de 'double' a 'float'
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(199): warning C4305: '=': truncamiento de 'double' a 'float'
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(225): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(226): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(227): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(281): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
+c:\users\toni\documents\github\fluids-mecanica\src\physics.cpp(133): warning C4715: 'getTheAlpha': no todas las rutas de acceso de control devuelven un valor
+  GL_framework.vcxproj -> C:\Users\Toni\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.exe
+  GL_framework.vcxproj -> C:\Users\Toni\Documents\GitHub\Fluids-Mecanica\x64\Debug\GL_framework.pdb (Partial PDB)
   0 archivo(s) copiado(s)
   0 archivo(s) copiado(s)
